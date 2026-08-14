@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /sponsor/
+
+Sitemap: https://beishou.netlify.app/sitemap.xml

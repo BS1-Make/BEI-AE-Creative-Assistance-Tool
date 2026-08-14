@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>AE 文本动效预览画廊</title>
+    <script>
+        (function() {
+            try {
+                var saved = localStorage.getItem('ae-theme');
+                var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch(_) {}
+        })();
+    </script>
+    <meta name="description" content="AE文本动效预览画廊 - 320+动效GIF预览">
+    <meta name="theme-color" content="#6c5ce7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta property="og:title" content="AE 文本动效预览画廊">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="manifest" href="../manifest.json">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        :root {
+            --bg: #0f0f1a;
+            --bg-card: #1a1a2e;
+            --bg-hover: #252540;
+            --text: #e8e8f0;
+            --text-secondary: #a0a0c0;
+            --accent: #6c5ce7;
+            --accent-light: #a29bfe;
+            --accent-glow: rgba(108,92,231,0.2);
+            --border: #2a2a45;
+            --shadow: 0 4px 20px rgba(0,0,0,0.4);
+            --shadow-hover: 0 8px 32px rgba(108,92,231,0.25);
+            --radius: 12px;
+            --gradient-accent: linear-gradient(135deg, #6c5ce7, #a29bfe);
+        }
+
+        [data-theme="light"] {
+            --bg: #f0f2f8;
+            --bg-card: #ffffff;
+            --bg-hover: #e8ecf1;
+            --text: #1a1a2e;
+            --text-secondary: #4a4a6a;
+            --border: #dce0e8;
+            --shadow: 0 2px 12px rgba(0,0,0,0.08);
+            --shadow-hover: 0 8px 32px rgba(108,92,231,0.15);
+            --accent-glow: rgba(108,92,231,0.12);
+            --gradient-accent: linear-gradient(135deg, #6c5ce7, #a29bfe);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+            transition: background 0.3s, color 0.3s;
+            -webkit-font-smoothing: antialiased;
+        }
+        ::selection { background: var(--accent-glow); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+        
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            box-shadow: 0 1px 0 var(--border);
+        }
+        
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: var(--gradient-accent);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 2px 12px var(--accent-glow);
+            flex-shrink: 0;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            min-height: 40px;
+            background: var(--gradient-accent);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 12px var(--accent-glow);
+            white-space: nowrap;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .back-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px var(--accent-glow); }
+        
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            min-height: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        .theme-toggle:hover { background: var(--bg-hover); transform: rotate(15deg); border-color: var(--accent); }
+        
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        /* Stats */
+        .stats {
+            margin-top: 12px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .stats span { display: inline-flex; align-items: center; gap: 4px; }
+        
+        /* Gallery */
+        .gallery {
+            padding: 24px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+        }
+        
+        .gif-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s, border-color 0.3s;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+
+        .gif-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent);
+        }
+        .gif-card:active { transform: scale(0.98); }
+        
+        .gif-preview {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Shimmer loading */
+        .gif-preview::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-hover) 50%, var(--bg-card) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        .gif-preview.loaded::before { display: none; }
+        .gif-preview.error::before { 
+            background: var(--bg-card);
+            animation: none;
+        }
+        .gif-preview.error::after {
+            content: '加载失败';
+            position: absolute;
+            color: var(--text-secondary);
+            font-size: 13px;
+            z-index: 1;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .gif-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .gif-preview img.loaded { opacity: 1; }
+        
+        .gif-info {
+            padding: 10px 12px 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .gif-name {
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            letter-spacing: -0.2px;
+        }
+
+        .gif-meta {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        
+        .lightbox.active { display: flex; }
+        
+        .lightbox-content {
+            max-width: 90vw;
+            max-height: 85vh;
+            position: relative;
+            touch-action: pan-y;
+        }
+        
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 85vh;
+            border-radius: 10px;
+            box-shadow: 0 0 60px rgba(108,92,231,0.3);
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            min-height: 44px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        .lightbox-close:hover { background: rgba(255,255,255,0.25); }
+        
+        .lightbox-caption {
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #fff;
+            font-size: 14px;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            min-width: 48px;
+            min-height: 48px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            z-index: 2;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        .lightbox-nav:hover { background: rgba(255,255,255,0.3); }
+        
+        .lightbox-prev { left: -64px; }
+        .lightbox-next { right: -64px; }
+
+        /* Swipe hint */
+        .swipe-hint {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            display: none;
+            pointer-events: none;
+        }
+        @media (hover: none) and (pointer: coarse) {
+            .swipe-hint { display: block; }
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-secondary);
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+        
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Scroll to top */
+        .scroll-top {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px var(--accent-glow);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+            z-index: 90;
+        }
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .scroll-top:hover { transform: translateY(-3px); box-shadow: 0 6px 20px var(--accent-glow); }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 32px 24px 20px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            border-top: 1px solid var(--border);
+            position: relative;
+        }
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 80px; height: 2px;
+            background: var(--gradient-accent);
+            border-radius: 1px;
+            opacity: 0.5;
+        }
+        
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+            .gallery { padding: 16px; }
+        }
+
+        @media (max-width: 640px) {
+            .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+            .gallery { padding: 12px; }
+            .header { padding: 12px 16px; padding-top: max(12px, env(safe-area-inset-top)); }
+            .logo { font-size: 15px; }
+            .back-btn { min-height: 38px; }
+            .theme-toggle { width: 40px; height: 40px; min-width: 40px; min-height: 40px; }
+            .lightbox-prev { left: 8px; }
+            .lightbox-next { right: 8px; }
+            .lightbox { padding: 12px; }
+            .lightbox-nav { width: 44px; height: 44px; min-width: 44px; min-height: 44px; font-size: 22px; }
+            .footer { padding: 28px 16px 20px; padding-bottom: max(20px, calc(env(safe-area-inset-bottom) + 16px)); }
+        }
+
+        @media (max-width: 480px) {
+            .grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+            .gallery { padding: 10px; }
+            .logo { font-size: 14px; gap: 8px; }
+            .logo-icon { width: 32px; height: 32px; font-size: 16px; }
+            .back-btn { padding: 6px 12px; font-size: 13px; min-height: 38px; }
+            .theme-toggle { width: 38px; height: 38px; min-width: 38px; min-height: 38px; }
+            .gif-name { font-size: 12px; }
+            .gif-meta { font-size: 10px; }
+            .stats { font-size: 12px; gap: 10px; }
+            .scroll-top {
+                width: 42px; height: 42px;
+                bottom: max(16px, calc(env(safe-area-inset-bottom) + 12px));
+                right: 12px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .grid { grid-template-columns: 1fr; gap: 8px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-top">
+            <div class="logo">
+                <div class="logo-icon">✨</div>
+                <span>AE 文本动效预览画廊</span>
+            </div>
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle" title="切换主题" aria-label="切换深色/浅色主题">🌙</button>
+                <a href="../index.html" class="back-btn" onclick="if(history.length>1){history.back();return false}" aria-label="返回主页">← 返回主页</a>
+            </div>
+        </div>
+        <div class="stats">
+            <span id="totalCount">共 0 个动效</span>
+            <span>点击图片可放大查看</span>
+            <span>支持键盘 ← → 切换</span>
+        </div>
+    </header>
+    
+    <main class="gallery">
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>正在加载动效预览...</p>
+        </div>
+        <div class="grid" id="grid" style="display:none;"></div>
+    </main>
+    
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="图片放大查看">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lbClose" aria-label="关闭">✕</button>
+            <button class="lightbox-nav lightbox-prev" id="lbPrev" aria-label="上一个">‹</button>
+            <img id="lbImage" src="" alt="">
+            <button class="lightbox-nav lightbox-next" id="lbNext" aria-label="下一个">›</button>
+            <div class="lightbox-caption" id="lbCaption"></div>
+            <div class="swipe-hint">← 左右滑动切换 →</div>
+        </div>
+    </div>
+
+    <button class="scroll-top" id="scrollTop" title="回到顶部" aria-label="回到顶部">↑</button>
+    
+    <footer class="footer">
+        BEI-AeCreativeAssistance Tool | 北受漫剪制作
+    </footer>
+
+    <script>
+        // GIF 文件列表（按文件名排序）
+        const gifFiles = [
+            "01_下载 (1).gif",
+            "02_下载 (10).gif",
+            "03_下载 (11).gif",
+            "04_下载 (12).gif",
+            "05_下载 (13).gif",
+            "06_下载 (14).gif",
+            "07_下载 (15).gif",
+            "08_下载 (16).gif",
+            "09_下载 (17).gif",
+            "10_下载 (18).gif",
+            "11_下载 (19).gif",
+            "12_下载 (2).gif",
+            "13_下载 (20).gif",
+            "14_下载 (21).gif",
+            "15_下载 (22).gif",
+            "16_下载 (23).gif",
+            "17_下载 (24).gif",
+            "18_下载 (25).gif",
+            "19_下载 (26).gif",
+            "20_下载 (27).gif",
+            "21_下载 (28).gif",
+            "22_下载 (29).gif",
+            "23_下载 (3).gif",
+            "24_下载 (30).gif",
+            "25_下载 (31).gif",
+            "26_下载 (32).gif",
+            "27_下载 (4).gif",
+            "28_下载 (5).gif",
+            "29_下载 (6).gif",
+            "30_下载 (7).gif",
+            "31_下载 (8).gif",
+            "32_下载 (9).gif",
+            "33_下载.3gif.gif",
+            "34_下载.5gif.gif",
+            "35_下载.gif",
+            "36_下载10.gif",
+            "37_下载11.gif",
+            "38_下载2.gif",
+            "39_下载4.gif",
+            "40_下载6.gif",
+            "41_下载7.gif",
+            "42_下载8.gif"
+        ];
+        
+        const grid = document.getElementById('grid');
+        const loading = document.getElementById('loading');
+        const totalCount = document.getElementById('totalCount');
+        const lightbox = document.getElementById('lightbox');
+        const lbImage = document.getElementById('lbImage');
+        const lbCaption = document.getElementById('lbCaption');
+        const scrollTopBtn = document.getElementById('scrollTop');
+        let currentIndex = 0;
+        
+        // 安全编码 URL
+        function safeUrl(filename) {
+            return 'gifs/' + encodeURIComponent(filename);
+        }
+        
+        // 渲染画廊
+        function renderGallery() {
+            gifFiles.forEach((filename, index) => {
+                const card = document.createElement('div');
+                card.className = 'gif-card';
+                const safeFilename = filename.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+                card.innerHTML = `
+                    <div class="gif-preview" data-index="${index}">
+                        <img src="${safeUrl(filename)}" alt="动效 ${index + 1}" loading="lazy" data-index="${index}">
+                    </div>
+                    <div class="gif-info">
+                        <div class="gif-name" title="${safeFilename}">动效 ${index + 1}</div>
+                        <div class="gif-meta">
+                            <span>预设 #${index + 1}</span>
+                            <span>AE Text</span>
+                        </div>
+                    </div>
+                `;
+                
+                // 图片加载成功（处理缓存竞态）
+                const img = card.querySelector('img');
+                const preview = card.querySelector('.gif-preview');
+                if (img.complete && img.naturalWidth > 0) {
+                    preview.classList.add('loaded');
+                    img.classList.add('loaded');
+                } else {
+                    img.addEventListener('load', () => {
+                        preview.classList.add('loaded');
+                        img.classList.add('loaded');
+                    });
+                    img.addEventListener('error', () => {
+                        preview.classList.add('error');
+                    });
+                }
+                
+                card.addEventListener('click', () => openLightbox(index));
+                grid.appendChild(card);
+            });
+            
+            totalCount.textContent = `共 ${gifFiles.length} 个动效`;
+            loading.style.display = 'none';
+            grid.style.display = 'grid';
+        }
+        
+        // 灯箱
+        function openLightbox(index) {
+            currentIndex = index;
+            updateLightbox();
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        function updateLightbox() {
+            lbImage.src = safeUrl(gifFiles[currentIndex]);
+            lbCaption.textContent = `动效 ${currentIndex + 1} / ${gifFiles.length}`;
+        }
+        
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + gifFiles.length) % gifFiles.length;
+            updateLightbox();
+        }
+        
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % gifFiles.length;
+            updateLightbox();
+        }
+        
+        document.getElementById('lbClose').addEventListener('click', closeLightbox);
+        document.getElementById('lbPrev').addEventListener('click', (e) => { e.stopPropagation(); prevImage(); });
+        document.getElementById('lbNext').addEventListener('click', (e) => { e.stopPropagation(); nextImage(); });
+        
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox || e.target === lbImage) closeLightbox();
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') prevImage();
+            if (e.key === 'ArrowRight') nextImage();
+        });
+
+        // 灯箱触摸滑动（移动端）
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        lightbox.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        lightbox.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) nextImage();
+                else prevImage();
+            }
+        }, { passive: true });
+        
+        // 回到顶部
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        }, { passive: true });
+        
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // 主题切换（与主页面共用 ae-theme key，默认跟随系统）
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('ae-theme');
+        const initialTheme = savedTheme || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', initialTheme);
+        themeToggle.textContent = initialTheme === 'dark' ? '☀️' : '🌙';
+        
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
+            localStorage.setItem('ae-theme', next);
+        });
+        
+        // 启动
+        renderGallery();
+    </script>
+</body>
+</html>

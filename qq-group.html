@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<title>QQ群入口 - BEI-Ae创作辅助工具</title>
+<meta name="description" content="加入BEI-Ae创作辅助工具QQ群，获取最新更新通知与技术交流">
+<meta name="theme-color" content="#6c5ce7">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta property="og:title" content="QQ群入口 - BEI-Ae创作辅助工具">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.json">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+:root{--bg:#f4f4f8;--bg-card:#fff;--text:#1a1a2e;--text-2:#6e6e80;--border:#e8e8ed;--accent:#6c5ce7;--accent-light:#a29bfe;--accent-bg:rgba(108,92,231,0.08);--qq:#12b7f5;--qq-bg:rgba(18,183,245,0.1);--shadow:0 2px 12px rgba(0,0,0,0.06);--radius:14px;--gradient:linear-gradient(135deg,#6c5ce7,#a29bfe)}
+[data-theme="dark"]{--bg:#0c0c12;--bg-card:#181820;--text:#f0f0f5;--text-2:#9090a0;--border:#2a2a36;--accent:#a29bfe;--accent-light:#6c5ce7;--accent-bg:rgba(162,155,254,0.12);--qq:#12b7f5;--qq-bg:rgba(18,183,245,0.15);--shadow:0 2px 12px rgba(0,0,0,0.3)}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);transition:background .3s,color .3s;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent-bg)}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+/* 背景装饰 */
+.bg-deco{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bg-deco::before,.bg-deco::after{content:'';position:absolute;border-radius:50%;filter:blur(80px);opacity:.15;animation:float 8s ease-in-out infinite}
+.bg-deco::before{width:400px;height:400px;background:var(--accent);top:-100px;left:-100px}
+.bg-deco::after{width:350px;height:350px;background:var(--qq);bottom:-80px;right:-80px;animation-delay:-4s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-30px) scale(1.1)}}
+
+/* Header */
+.header{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:16px 24px;padding-top:max(16px, calc(env(safe-area-inset-top) + 8px));background:var(--bg-card);border-bottom:1px solid var(--border);backdrop-filter:blur(20px)}
+.header-back{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;min-height:38px;background:var(--accent-bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;text-decoration:none;transition:all .2s;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.header-back:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.header-title{font-size:16px;font-weight:600}
+.header-right{display:flex;align-items:center;gap:8px}
+.theme-toggle{width:40px;height:40px;min-width:40px;min-height:40px;border-radius:10px;border:1px solid var(--border);background:var(--accent-bg);color:var(--text);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.theme-toggle:hover{transform:rotate(15deg);border-color:var(--accent);background:var(--accent);color:#fff}
+.theme-toggle:active{transform:rotate(180deg) scale(.9)}
+
+/* Main */
+.container{position:relative;z-index:1;max-width:600px;margin:0 auto;padding:24px 20px}
+
+/* Hero */
+.hero{text-align:center;margin-bottom:28px}
+.hero-icon{width:72px;height:72px;margin:0 auto 16px;background:var(--gradient);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 8px 32px rgba(108,92,231,.3)}
+.hero h1{font-size:24px;font-weight:700;margin-bottom:6px}
+.hero p{color:var(--text-2);font-size:14px}
+
+/* QQ Group Card */
+.qq-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;box-shadow:var(--shadow);margin-bottom:20px}
+.qq-card-header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.qq-avatar{width:56px;height:56px;border-radius:16px;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;box-shadow:0 4px 16px rgba(108,92,231,.2)}
+.qq-info h2{font-size:18px;font-weight:700;margin-bottom:4px}
+.qq-info p{font-size:13px;color:var(--text-2)}
+
+/* QR Code */
+.qr-section{text-align:center;margin-bottom:24px}
+.qr-wrap{display:inline-block;padding:12px;background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.qr-wrap img{width:200px;height:200px;border-radius:8px;display:block}
+.qr-tip{margin-top:12px;font-size:13px;color:var(--text-2)}
+
+/* Group Number */
+.group-number{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:20px;padding:14px;background:var(--qq-bg);border-radius:12px;border:1px dashed var(--qq)}
+.group-number-label{font-size:13px;color:var(--text-2)}
+.group-number-value{font-size:22px;font-weight:800;color:var(--qq);letter-spacing:1px;font-family:'Courier New',monospace}
+.copy-btn{padding:8px 14px;min-height:36px;background:var(--qq);color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer;transition:all .2s;white-space:nowrap;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.copy-btn:hover{opacity:.85;transform:translateY(-1px)}
+.copy-btn.copied{background:#07c160}
+
+/* Join Button */
+.join-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px 24px;min-height:52px;background:var(--qq);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.join-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(18,183,245,.35)}
+.join-btn:active{transform:scale(.98)}
+
+/* Announcement */
+.announce{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+.announce h3{font-size:16px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.announce-body{font-size:14px;line-height:1.8;color:var(--text-2)}
+.announce-body p{margin-bottom:10px}
+.announce-body strong{color:var(--text)}
+.announce-body .highlight{color:var(--accent);font-weight:600}
+.announce-body ul{list-style:none;padding:0;margin:8px 0}
+.announce-body ul li{padding-left:18px;position:relative;margin-bottom:6px}
+.announce-body ul li::before{content:'▸';position:absolute;left:0;color:var(--accent)}
+
+/* Footer */
+.footer{text-align:center;padding:24px;color:var(--text-2);font-size:12px}
+
+/* Toast */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:#07c160;color:#fff;padding:10px 20px;border-radius:10px;font-size:14px;opacity:0;transition:all .3s;z-index:9999;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* 二维码点击放大 */
+.qr-wrap{cursor:pointer;position:relative;transition:transform .2s}
+.qr-wrap:hover{transform:scale(1.03)}
+.qr-wrap:hover .zoom-hint{opacity:1}
+.zoom-hint{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.65);color:#fff;padding:3px 12px;border-radius:20px;font-size:11px;opacity:0;transition:opacity .2s;pointer-events:none;white-space:nowrap}
+
+/* 灯箱遮罩 */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:10000;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.lightbox.show{opacity:1;visibility:visible}
+.lightbox img{max-width:85vw;max-height:85vh;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,.5);transform:scale(.8);transition:transform .3s}
+.lightbox.show img{transform:scale(1)}
+.lightbox-close{position:absolute;top:max(20px, calc(env(safe-area-inset-top) + 12px));right:24px;width:48px;height:48px;min-width:48px;min-height:48px;background:rgba(255,255,255,.15);border:none;border-radius:50%;color:#fff;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.lightbox-close:hover{background:rgba(255,255,255,.3)}
+.lightbox-hint{position:absolute;bottom:max(24px, calc(env(safe-area-inset-bottom) + 12px));left:50%;transform:translateX(-50%);color:rgba(255,255,255,.6);font-size:13px}
+
+.toast{bottom:max(32px, calc(env(safe-area-inset-bottom) + 20px))}
+
+@media(max-width:480px){
+  .container{padding:16px 12px;padding-bottom:max(16px, calc(env(safe-area-inset-bottom) + 12px))}
+  .hero h1{font-size:20px}
+  .qq-card{padding:20px 16px}
+  .qr-wrap img{width:170px;height:170px}
+  .group-number-value{font-size:18px}
+  .header{padding:12px 16px;padding-top:max(12px, calc(env(safe-area-inset-top) + 4px))}
+  .lightbox-close{width:44px;height:44px;min-width:44px;min-height:44px;top:max(16px, calc(env(safe-area-inset-top) + 8px));right:16px}
+}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="bg-deco"></div>
+
+<header class="header">
+  <a href="index.html" class="header-back" onclick="if(history.length>1){history.back();return false}" aria-label="返回主页">← 返回主页</a>
+  <div class="header-right">
+    <span class="header-title">QQ群入口</span>
+    <button class="theme-toggle" id="themeToggle" aria-label="切换主题" title="切换深色/浅色模式">🌙</button>
+  </div>
+</header>
+
+<div class="container">
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-icon">💬</div>
+    <h1>BEI-Ae创作辅助工具 粉丝群</h1>
+    <p>加入QQ群，获取最新更新通知与技术交流</p>
+  </div>
+
+  <!-- QQ Group Card -->
+  <div class="qq-card">
+    <div class="qq-card-header">
+      <div class="qq-avatar">🐧</div>
+      <div class="qq-info">
+        <h2>BEI-Ae创作辅助工具粉丝群</h2>
+        <p>QQ群 | 欢迎加入交流</p>
+      </div>
+    </div>
+
+    <!-- QR Code -->
+    <div class="qr-section">
+      <div class="qr-wrap" onclick="openLightbox()" role="button" tabindex="0" aria-label="点击放大QQ群二维码">
+        <img src="qq-group-qr.jpg" alt="QQ群二维码" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML+='<div style=&quot;color:#999;font-size:13px;padding:80px 40px&quot;>二维码加载失败</div>'">
+        <span class="zoom-hint">🔍 点击放大</span>
+      </div>
+      <p class="qr-tip">扫一扫二维码，加入群聊</p>
+    </div>
+
+    <!-- Group Number -->
+    <div class="group-number">
+      <span class="group-number-label">群号</span>
+      <span class="group-number-value" id="groupNumber">537906139</span>
+      <button class="copy-btn" id="copyBtn" onclick="copyGroupNumber()" aria-label="复制QQ群号">复制群号</button>
+    </div>
+
+    <!-- Join Button -->
+    <a href="#" class="join-btn" id="joinBtn" onclick="joinQQGroup(event)" aria-label="一键加入QQ群">
+      🐧 一键加入QQ群
+    </a>
+  </div>
+
+  <!-- Announcement -->
+  <div class="announce">
+    <h3>📢 群公告</h3>
+    <div class="announce-body">
+      <p>各位小伙伴好！欢迎加入 <strong>BEI-Ae创作辅助工具粉丝群</strong> 👋</p>
+      <p>本群由 <strong>北受漫剪</strong> 创建，主要用途如下：</p>
+      <ul>
+        <li><span class="highlight">更新通知</span> — 网站新增内容、功能优化、Bug修复等第一时间通知</li>
+        <li><span class="highlight">问题反馈</span> — 使用中遇到任何问题都可以在群里反馈</li>
+        <li><span class="highlight">技术交流</span> — AE特效制作、文字动画等经验分享</li>
+        <li><span class="highlight">资源分享</span> — 好用的AE插件、预设、教程推荐</li>
+      </ul>
+      <p>📌 <strong>网站地址</strong></p>
+      <ul>
+        <li>Netlify 版本：<strong>https://beishou.netlify.app/</strong></li>
+        <li>Pages 版本：<strong>https://bei-ae-creative-assistane-tool.pages.dev/</strong></li>
+      </ul>
+      <p>📌 <strong>群规</strong></p>
+      <ul>
+        <li>禁止发广告、刷屏、引战等行为</li>
+        <li>尊重他人，友好交流</li>
+        <li>提问前建议先查看网站的常见问题</li>
+      </ul>
+      <p>如果二维码无法扫描，请直接在QQ中搜索群号 <strong>537906139</strong> 加入~</p>
+    </div>
+  </div>
+</div>
+
+<div class="footer">BEI-AeCreativeAssistance Tool | 北受漫剪制作</div>
+
+<!-- 灯箱 -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)" role="dialog" aria-modal="true" aria-label="QQ群二维码放大查看">
+  <button class="lightbox-close" onclick="closeLightbox(event)" aria-label="关闭">×</button>
+  <img src="qq-group-qr.jpg" alt="QQ群二维码" onclick="event.stopPropagation()" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<p style=&quot;color:rgba(255,255,255,.6);font-size:14px&quot;>二维码加载失败</p>')">
+  <p class="lightbox-hint">点击空白处关闭 · ESC 关闭</p>
+</div>
+
+<div class="toast" id="toast">复制成功！</div>
+
+<script>
+// 主题切换（与主站共用 ae-theme key）
+(function() {
+  var themeToggle = document.getElementById('themeToggle');
+  var saved = localStorage.getItem('ae-theme');
+  var initial = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', initial);
+  themeToggle.textContent = initial === 'dark' ? '☀️' : '🌙';
+  themeToggle.addEventListener('click', function() {
+    var cur = document.documentElement.getAttribute('data-theme');
+    var next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
+    localStorage.setItem('ae-theme', next);
+  });
+})();
+
+function copyGroupNumber() {
+  var num = document.getElementById('groupNumber').textContent;
+  var btn = document.getElementById('copyBtn');
+  var toast = document.getElementById('toast');
+  
+  function showSuccess() {
+    btn.textContent = '已复制';
+    btn.classList.add('copied');
+    toast.classList.add('show');
+    setTimeout(function() {
+      btn.textContent = '复制群号';
+      btn.classList.remove('copied');
+      toast.classList.remove('show');
+    }, 2000);
+  }
+  
+  function fallbackCopy() {
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = num;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showSuccess();
+    } catch(e) {
+      toast.textContent = '复制失败，请手动复制';
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); toast.textContent = '复制成功！'; }, 2000);
+    }
+  }
+  
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(num).then(showSuccess).catch(fallbackCopy);
+  } else {
+    fallbackCopy();
+  }
+}
+
+function joinQQGroup(e) {
+  e.preventDefault();
+  var uin = '537906139';
+  var scheme = 'mqqapi://card/show_pslcard?src_type=internal&version=1&uin=' + uin + '&card_type=group&source=qrcode';
+  window.location.href = scheme;
+  
+  var opened = false;
+  var visibilityChanged = false;
+  function onVisChange() { visibilityChanged = true; document.removeEventListener('visibilitychange', onVisChange); }
+  document.addEventListener('visibilitychange', onVisChange);
+  
+  setTimeout(function() {
+    document.removeEventListener('visibilitychange', onVisChange);
+    if (!visibilityChanged) {
+      var confirmed = confirm('如果QQ没有自动打开，请复制群号 ' + uin + ' 在QQ中搜索加入。');
+      if (confirmed) {
+        copyGroupNumber();
+      }
+    }
+  }, 2500);
+}
+
+// 灯箱放大
+function openLightbox() {
+  document.getElementById('lightbox').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox(e) {
+  if (e && e.target.tagName === 'IMG') return;
+  document.getElementById('lightbox').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+// ESC 关闭
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+
+// QR码键盘支持
+document.querySelector('.qr-wrap').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    openLightbox();
+  }
+});
+</script>
+</body>
+</html>

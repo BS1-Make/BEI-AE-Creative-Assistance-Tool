@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark" class=""><head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<title>免责声明 - BEI-Ae创作辅助工具</title>
+<script>
+    // 防止FOUC：在head中尽早设置主题
+    (function() {
+        try {
+            var saved = localStorage.getItem('ae-theme');
+            var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        } catch(_) {}
+    })();
+</script>
+ <meta name="description" content="免责声明 - BEI-Ae创作辅助工具">
+ <meta name="theme-color" content="#6c5ce7">
+ <meta name="apple-mobile-web-app-capable" content="yes">
+ <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+ <meta property="og:title" content="免责声明 - BEI-Ae创作辅助工具">
+ <meta property="og:type" content="website">
+ <link rel="icon" href="favicon.svg" type="image/svg+xml">
+ <link rel="manifest" href="manifest.json">
+ <style>
+:root {
+    --bg: #f4f4f8;
+    --bg-card: #ffffff;
+    --text: #1a1a2e;
+    --text-secondary: #6e6e80;
+    --border: #e8e8ed;
+    --accent: #6c5ce7;
+    --accent-light: #a29bfe;
+    --accent-bg: rgba(108,92,231,0.08);
+    --shadow: 0 2px 12px rgba(0,0,0,0.06);
+    --radius: 14px;
+    --gradient-accent: linear-gradient(135deg, #6c5ce7, #a29bfe);
+}
+[data-theme="dark"] {
+    --bg: #0c0c12;
+    --bg-card: #181820;
+    --text: #f0f0f5;
+    --text-secondary: #9090a0;
+    --border: #2a2a36;
+    --accent: #a29bfe;
+    --accent-light: #6c5ce7;
+    --accent-bg: rgba(162,155,254,0.12);
+    --shadow: 0 2px 12px rgba(0,0,0,0.3);
+    --gradient-accent: linear-gradient(135deg, #a29bfe, #6c5ce7);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+    min-height: 100vh;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.3s, color 0.3s;
+}
+::selection { background: var(--accent-bg); }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    padding-top: max(14px, calc(env(safe-area-inset-top) + 8px));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    backdrop-filter: blur(20px);
+}
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 14px;
+    min-height: 40px;
+    background: var(--accent-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+.back-btn:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+.header-title {
+    font-weight: 700;
+    font-size: 16px;
+}
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.theme-toggle {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--accent-bg);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+.theme-toggle:hover {
+    transform: rotate(15deg);
+    border-color: var(--accent);
+    background: var(--accent);
+    color: #fff;
+}
+
+.container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 40px;
+}
+.hero-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: var(--gradient-accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 20px rgba(108,92,231,0.2);
+}
+.hero h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+.hero p {
+    font-size: 15px;
+    color: var(--text-secondary);
+}
+
+.section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+}
+.section h2 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.section h2 .icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--accent-bg);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+}
+.section p {
+    font-size: 14.5px;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    line-height: 1.9;
+}
+.section p:last-child { margin-bottom: 0; }
+.section strong { color: var(--text); }
+.section ul {
+    list-style: none;
+    margin: 10px 0;
+}
+.section ul li {
+    font-size: 14.5px;
+    color: var(--text-secondary);
+    padding: 6px 0 6px 24px;
+    position: relative;
+    line-height: 1.8;
+}
+.section ul li::before {
+    content: '·';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    color: var(--accent);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.highlight-box {
+    background: var(--accent-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 20px;
+}
+.highlight-box p {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.9;
+}
+.highlight-box strong { color: var(--accent); }
+
+.source-box {
+    background: var(--accent-bg);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 14px 0;
+}
+.source-box p {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.8;
+}
+.source-box a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    word-break: break-all;
+}
+.source-box a:hover {
+    text-decoration: underline;
+}
+
+.footer {
+    text-align: center;
+    padding: 30px 16px 10px;
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+.footer::before {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: var(--gradient-accent);
+    border-radius: 1px;
+    margin: 0 auto 16px;
+    opacity: 0.5;
+}
+
+@media (max-width: 640px) {
+    .header { padding: 12px 14px; padding-top: max(12px, calc(env(safe-area-inset-top) + 6px)); gap: 8px; }
+    .container { padding: 20px 14px 40px; }
+    .section { padding: 18px 16px; }
+    .hero { margin-bottom: 28px; }
+    .hero-icon { width: 56px; height: 56px; border-radius: 14px; font-size: 28px; }
+    .hero h1 { font-size: 22px; }
+    .hero p { font-size: 13.5px; }
+    .section h2 { font-size: 15px; }
+    .section p, .section ul li { font-size: 13.5px; }
+    .highlight-box { padding: 16px 18px; }
+    .source-box { padding: 10px 14px; }
+    .footer { padding: 24px 12px max(10px, calc(env(safe-area-inset-bottom) + 10px)); }
+}
+@media (max-width: 380px) {
+    .hero h1 { font-size: 20px; }
+    .back-btn { padding: 6px 10px; font-size: 13px; }
+    .header-title { font-size: 14.5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+    <a href="index.html" class="back-btn" onclick="if(history.length>1){history.back();return false}" aria-label="返回主页">← 返回</a>
+    <div class="header-right">
+        <span class="header-title">免责声明</span>
+        <button class="theme-toggle" id="themeToggle" aria-label="切换主题" title="切换深色/浅色模式">🌙</button>
+    </div>
+</header>
+
+<div class="container">
+    <div class="hero">
+        <div class="hero-icon">📋</div>
+        <h1>免责声明</h1>
+        <p>最后更新：2026年8月</p>
+    </div>
+
+    <div class="highlight-box">
+        <p>本站（BEI-Ae创作辅助工具）由 <strong>北受漫剪</strong> 个人整理制作，仅供学习交流与参考使用，不用于任何商业目的。使用本站内容即表示您已阅读并同意以下声明。</p>
+    </div>
+
+    <div class="section">
+        <h2><span class="icon">§</span> 一、内容性质</h2>
+        <p>本站收录的 After Effects 插件、脚本、表达式、预设及效果名称等信息，均为基于公开资料整理的<strong>参考资料</strong>，旨在帮助用户快速查找和了解各类 AE 工具的功能与用途。</p>
+        <ul>
+            
+            <li>本站不存储、不传播任何受版权保护的安装包或授权文件</li>
+            <li>所有插件版权归各自开发者/公司所有</li>
+            <li>文中提及的商标、产品名称均为各自所有者的财产</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2><span class="icon">§</span> 二、使用规范</h2>
+        <p>用户在使用本站参考资料时，应遵守以下原则：</p>
+        <ul>
+            <li>请通过官方渠道购买正版软件及插件，支持开发者</li>
+            <li>本站内容仅作为功能查阅参考，不构成任何购买建议</li>
+            <li>不得将本站内容用于商业用途或二次售卖</li>
+            <li>因使用本站信息而产生的任何直接或间接损失，本站不承担责任</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2><span class="icon">§</span> 三、内容准确性</h2>
+        <p>本站内容基于个人整理，虽力求准确，但无法保证所有信息完全无误：</p>
+        <ul>
+            <li>插件功能描述可能与实际版本存在差异</li>
+            <li>部分信息可能随软件更新而过时</li>
+            <li>如发现内容有误，欢迎反馈指正</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2><span class="icon">§</span> 四、第三方链接</h2>
+        <p>本站可能包含指向第三方网站的链接，这些链接仅为方便用户参考而提供。本站不对第三方网站的内容、隐私政策或任何行为负责，访问第三方网站的风险由用户自行承担。</p>
+    </div>
+
+    <div class="section">
+        <h2><span class="icon">§</span> 五、版权声明</h2>
+        <p>After Effects 为 Adobe Inc. 的注册商标。本站与 Adobe Inc. 无任何关联、赞助或合作关系。本站提及的所有其他商标、产品名称均属于其各自所有者。</p>
+        <p>本站的排版设计、分类方式、整理内容等原创部分，版权归 <strong>北受漫剪</strong> 所有。如需转载请注明出处。</p>
+    </div>
+
+    <div class="section">
+        <h2><span class="icon">§</span> 六、图片来源声明</h2>
+        <p>本站所展示的图片均为<strong>效果缩略图</strong>，用于直观呈现各动效、预设、模板的实际应用效果，方便用户快速预览与选择。</p>
+        <div class="source-box">
+            <p>📌 效果缩略图出处：<a href="https://space.bilibili.com/661710452" target="_blank" rel="noopener noreferrer">https://space.bilibili.com/661710452</a></p>
+        </div>
+        <ul>
+            <li>所有效果缩略图的<strong>版权归原作者/创作者所有</strong>，本站仅出于展示与参考目的进行整理收录</li>
+            <li>缩略图所展示的效果由原作者创作，本站不对图片本身主张任何版权</li>
+            <li>如能确认原作者信息，本站将在图片旁予以标注；部分图片因来源分散暂未能逐一标注作者</li>
+            <li>如图片原作者认为侵权或希望补充署名，请联系本站，确认后将在第一时间进行处理（补充署名或删除）</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2><span class="icon">§</span> 七、免责条款</h2>
+        <p>在适用法律允许的最大范围内，本站及其作者不对以下情况承担责任：</p>
+        <ul>
+            <li>因访问或使用本站内容而导致的任何数据丢失、利润损失或其他间接损失</li>
+            <li>因参考本站信息而做出的任何购买决策及其后果</li>
+            <li>因软件兼容性问题、系统崩溃等造成的任何损害</li>
+            <li>不可抗力因素导致的本站无法访问或内容丢失</li>
+        </ul>
+    </div>
+
+    <div class="highlight-box">
+        <p><strong>特别提醒：</strong>请支持正版软件。购买正版不仅能获得稳定的技术支持和持续更新，也是对开发者辛勤工作的尊重与支持。</p>
+    </div>
+
+    <div class="footer">
+        BEI-AeCreativeAssistance Tool · 北受漫剪制作<br>
+        本声明最终解释权归本站所有
+    </div>
+</div>
+
+<script>
+    // 主题初始化（FOUC防护已在head中处理）
+    var themeToggle = document.getElementById('themeToggle');
+    var currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    themeToggle.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+    themeToggle.addEventListener('click', function() {
+        var next = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
+        try { localStorage.setItem('ae-theme', next); } catch(_) {}
+        currentTheme = next;
+    });
+</script>
+</body></html>
