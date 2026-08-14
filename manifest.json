@@ -1,0 +1,17 @@
+{
+  "name": "BEI-AeCreativeAssistance Tool",
+  "short_name": "BEI-Ae工具",
+  "description": "BEI-Ae创作辅助工具 - AE特效速查与文本动效手册",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0c0c12",
+  "theme_color": "#6c5ce7",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
